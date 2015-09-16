@@ -128,5 +128,15 @@ namespace WindowsDesktop
 
 			return wrapper;
 		}
+
+		public static VirtualDesktop GetCurrent()
+		{
+			VirtualDesktopHelper.ThrowIfNotSupported();
+
+			var desktop = VirtualDesktopInteropHelper.GetVirtualDesktopManagerInternal().GetCurrentDesktop();
+			var wrapper = wrappers.GetOrAdd(desktop.GetID(), _ => new VirtualDesktop(desktop));
+
+			return wrapper;
+		}
 	}
 }
